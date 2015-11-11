@@ -13,7 +13,8 @@
         android:id="@+id/priority_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="192dp" />
+        android:layout_marginBottom="192dp"
+        android:onClick="replace_click" />
 
     <Button
         android:layout_width="wrap_content"
@@ -24,5 +25,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         android:onClick="setssid_click" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/debugview"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="75dp" />
 
 </RelativeLayout>

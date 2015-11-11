@@ -1,31 +1,49 @@
 package rs.wifitools_matome;
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Intent;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.List;
 
 public class Set_SSID extends AppCompatActivity {
 
+
+    private String[] item;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set__ssid);
-
-        ActionBar actionBar=getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        //アクションバーの戻るを押したときの処理
-        if(id==android.R.id.home){
-            finish();
-            return true;
+        WifiManager manager = (WifiManager)getSystemService(WIFI_SERVICE);
+        List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
+        String[] coli=new String[config_list.size()];
+        for (int i=0;i<config_list.size();++i){
+            coli[i]=config_list.get(i).SSID.replace("\"","");
         }
-        return super.onOptionsItemSelected(item);
+        ListView lv = (ListView)findViewById(R.id.ssid_listview);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,coli);
+        lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView listView=(ListView)parent;
+                Intent intent = new Intent();
+                intent.putExtra("key",(String)listView.getItemAtPosition(position));
+                setResult(Activity.RESULT_OK,intent);
+
+                finish();
+            }
+        });
     }
 
-}
 }
