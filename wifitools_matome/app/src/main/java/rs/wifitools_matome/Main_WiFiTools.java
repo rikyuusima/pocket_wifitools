@@ -51,7 +51,9 @@ public class Main_WiFiTools extends AppCompatActivity {
         manager.startScan();
         for(ScanResult result : manager.getScanResults()) {
             if(config_list!=null){
-                if (result.SSID.equals(config_list) && !info.getSSID().equals(result.SSID)) {
+                TextView hoge = (TextView)findViewById(R.id.debugview);
+                hoge.setText(info.getSSID());
+                if (result.SSID.equals(config_list) && !info.getSSID().replace("\"","").equals(result.SSID)) {
                     //現在の接続の強制的な切断
                     manager.disableNetwork(info.getNetworkId());
                     //接続の関連付け
@@ -71,7 +73,6 @@ public class Main_WiFiTools extends AppCompatActivity {
                         TextView tv = (TextView)findViewById(R.id.debugview);
                         tv.setText("WiFi Changed");
                     }
-                    manager.addNetwork(config);
                     manager.saveConfiguration();
                     manager.updateNetwork(config);
                 }
