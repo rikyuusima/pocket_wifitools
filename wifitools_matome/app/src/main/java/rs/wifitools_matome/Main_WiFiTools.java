@@ -13,9 +13,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
+
 public class Main_WiFiTools extends AppCompatActivity {
 
-    private String config_list=null;
+    private int configlistvar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,9 @@ public class Main_WiFiTools extends AppCompatActivity {
             if( resultCode == Activity.RESULT_OK ){
 
                 // 返却されてきたintentから値を取り出す
-                config_list = intent.getStringExtra( "key" );
+                configlistvar=intent.getIntExtra("key",-1);
+                TextView chav = (TextView) findViewById(R.id.changedview);
+                chav.setText("");
             }
         }
     }
@@ -42,39 +45,52 @@ public class Main_WiFiTools extends AppCompatActivity {
         int requestCode=1001;
 
         // 遷移先のアクティビティを起動させる
-        startActivityForResult(intent,requestCode);
+        startActivityForResult(intent, requestCode);
     }
+
     public void replace_click(View v)
     {
-        WifiManager manager = (WifiManager)getSystemService(WIFI_SERVICE);
-        WifiInfo info = manager.getConnectionInfo();
-        manager.startScan();
-        for(ScanResult result : manager.getScanResults()) {
-            if(config_list!=null){
-                TextView hoge = (TextView)findViewById(R.id.debugview);
-                hoge.setText(info.getSSID());
-                if (result.SSID.equals(config_list) && !info.getSSID().replace("\"","").equals(result.SSID)) {
-                    //現在の接続の強制的な切断
-                    manager.disableNetwork(info.getNetworkId());
-                    //接続の関連付け
-                    manager.enableNetwork(info.getNetworkId(), false);
-                    WifiConfiguration config = new WifiConfiguration();
-                    config.SSID = config_list;
-                    config.hiddenSSID = true;
-                    config.status = WifiConfiguration.Status.ENABLED;
-                    config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-                    config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-                    config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-                    config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-                    config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-                    config.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+            TextView debv = (TextView) findViewById(R.id.debugview);
+            TextView chav = (TextView) findViewById(R.id.changedview);
+            WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
+            WifiInfo info = manager.getConnectionInfo();
+            List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
+            WifiConfiguration config = config_list.get(configlistvar);
+            manager.startScan();
 
-                    if(manager.addNetwork(config)!=-1){
-                        TextView tv = (TextView)findViewById(R.id.debugview);
-                        tv.setText("WiFi Changed");
+            boolean replaceflag = false;
+            boolean matchflag = false;
+
+        debv.setText("");
+
+        for(ScanResult result : manager.getScanResults()) {
+            if(configlistvar!=-1){
+                if(!info.getSSID().replace("\"","").equals(result.SSID)) {
+                    if (result.SSID.equals(config.SSID.replace("\"", ""))) {
+                        String oldSSID = info.getSSID().replace("\"", "");
+
+                        //現在の接続の強制的な切断
+                        manager.disableNetwork(info.getNetworkId());
+                        //強制的な切断をして無効化したWiFiを有効化させる(OSのWiFi自動接続を阻害させない為)
+                        manager.enableNetwork(info.getNetworkId(), false);
+                        manager.saveConfiguration();
+                        manager.updateNetwork(config);
+                        manager.enableNetwork(config.networkId, true);
+                        /*for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
+                            if (!config.SSID.equals(c0.SSID)) {
+                                manager.enableNetwork(c0.networkId, false);
+                            }
+                        }*/
+                        chav.setText(oldSSID + " → " + config.SSID.replace("\"", ""));
+                        replaceflag=true;
                     }
-                    manager.saveConfiguration();
-                    manager.updateNetwork(config);
+                    else if(!replaceflag){
+                        chav.setText("Can not Resolve Setting SSID from Connectable WiFi.");
+                    }
+                    matchflag=true;
+                }
+                else if(!matchflag){
+                    chav.setText("Setting SSID and Connecting SSID is Matched.");
                 }
             }
         }

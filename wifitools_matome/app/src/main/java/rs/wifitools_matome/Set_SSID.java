@@ -18,14 +18,13 @@ import java.util.List;
 public class Set_SSID extends AppCompatActivity {
 
 
-    private String[] item;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set__ssid);
         WifiManager manager = (WifiManager)getSystemService(WIFI_SERVICE);
-        List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
-        String[] coli=new String[config_list.size()];
+        final List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
+        final String[] coli=new String[config_list.size()];
         for (int i=0;i<config_list.size();++i){
             coli[i]=config_list.get(i).SSID.replace("\"","");
         }
@@ -36,9 +35,9 @@ public class Set_SSID extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListView listView=(ListView)parent;
+                //ListView listView=(ListView)parent;
                 Intent intent = new Intent();
-                intent.putExtra("key",(String)listView.getItemAtPosition(position));
+                intent.putExtra("key",position);
                 setResult(Activity.RESULT_OK,intent);
 
                 finish();
