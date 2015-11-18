@@ -72,7 +72,7 @@ public class Main_WiFiTools extends AppCompatActivity {
                         //現在の接続の強制的な切断
                         manager.disableNetwork(info.getNetworkId());
                         //強制的な切断をして無効化したWiFiを有効化させる(OSのWiFi自動接続を阻害させない為)
-                        manager.enableNetwork(info.getNetworkId(), false);
+                        //manager.enableNetwork(info.getNetworkId(), false);
                         manager.saveConfiguration();
                         manager.updateNetwork(config);
                         manager.enableNetwork(config.networkId, true);
@@ -93,6 +93,22 @@ public class Main_WiFiTools extends AppCompatActivity {
                     chav.setText("Setting SSID and Connecting SSID is Matched.");
                 }
             }
+        }
+        if(replaceflag){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        Thread.sleep(50000); //50000ミリ秒Sleepする
+                    }catch(InterruptedException e){}
+                    WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
+                    for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
+                        //if (!config.SSID.equals(c0.SSID)) {
+                            manager.enableNetwork(c0.networkId, false);
+                        //}
+                    }
+                }
+            }).start();
         }
     }
 
