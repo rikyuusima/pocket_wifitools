@@ -73,9 +73,10 @@ public class Main_WiFiTools extends AppCompatActivity {
                         manager.disableNetwork(info.getNetworkId());
                         //強制的な切断をして無効化したWiFiを有効化させる(OSのWiFi自動接続を阻害させない為)
                         //manager.enableNetwork(info.getNetworkId(), false);
+                        manager.enableNetwork(config.networkId, true);
                         manager.saveConfiguration();
                         manager.updateNetwork(config);
-                        manager.enableNetwork(config.networkId, true);
+
                         /*for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
                             if (!config.SSID.equals(c0.SSID)) {
                                 manager.enableNetwork(c0.networkId, false);
