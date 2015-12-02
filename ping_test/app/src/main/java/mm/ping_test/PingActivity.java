@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PingActivity extends AppCompatActivity implements View.OnClickListener{
     ConnectivityManager cm;
@@ -20,23 +21,28 @@ public class PingActivity extends AppCompatActivity implements View.OnClickListe
         cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         Button bt = (Button) findViewById(R.id.check_button);
         bt.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.serch_text);
+        tv = (TextView)findViewById(R.id.serch_text);
     }
 
     @Override
     public void onClick(View view) {
-        NetworkInfo nInfo = cm.getActiveNetworkInfo();
-        tv.setText("");
 
-        if(nInfo == null){
-            tv.setText("接続不可");
-            return;
-        }
-
-        if(nInfo.isConnected()){
-            tv.setText("接続可");
+        if(ping()){
+           tv.setText("接続可");
         }else{
-            tv.setText("接続不可");
+           tv.setText("接続不可");
         }
+    }
+
+    public static boolean ping(){
+        Runtime runtime = Runtime.getRuntime();
+        Process proc = null;
+        try{
+            proc = runtime.exec("ping -c 5 192.168.11.11");
+            proc.waitFor();
+        }catch(Exception e){}
+        int exitVal = proc.exitValue();
+        if(exitVal == 0)return false;
+        else return true;
     }
 }
