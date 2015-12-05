@@ -38,11 +38,14 @@ public class PingActivity extends AppCompatActivity implements View.OnClickListe
         Runtime runtime = Runtime.getRuntime();
         Process proc = null;
         try{
-            proc = runtime.exec("ping -c 5 216.58.221.3");
+            proc = runtime.exec("ping -c 5 www.google.com");
             proc.waitFor();
         }catch(Exception e){}
         int exitVal = proc.exitValue();
-        if(exitVal == 0)return true;
-        else return false;
+        if(exitVal == 0){
+            return true;
+        } else{
+            return false;
+        }
     }
 }
