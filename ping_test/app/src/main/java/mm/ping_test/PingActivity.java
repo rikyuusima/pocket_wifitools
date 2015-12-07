@@ -42,7 +42,7 @@ public class PingActivity extends AppCompatActivity implements View.OnClickListe
             proc.waitFor();
         }catch(Exception e){}
         int exitVal = proc.exitValue();
-        if(exitVal == 0){
+        if(exitVal == 0 ){
             return true;
         } else{
             return false;
