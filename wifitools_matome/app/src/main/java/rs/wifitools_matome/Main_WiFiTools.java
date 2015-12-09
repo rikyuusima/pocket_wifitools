@@ -9,7 +9,10 @@ import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -17,6 +20,7 @@ import java.util.List;
 public class Main_WiFiTools extends AppCompatActivity {
 
     private int configlistvar;
+    private boolean replaceswbool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +41,17 @@ public class Main_WiFiTools extends AppCompatActivity {
             }
         }
     }
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-    public void setssid_click(View v)
+        if (isChecked == true) {
+            replaceswbool=true;
+
+        } else {
+            replaceswbool=true;
+        }
+        Toast.makeText(Main_WiFiTools.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
+    }
+    public void set_ssid_open()
     {
         // 遷移先のActivityを指定して、Intentを作成する
         Intent intent = new Intent( this, Set_SSID.class );
@@ -46,6 +59,19 @@ public class Main_WiFiTools extends AppCompatActivity {
 
         // 遷移先のアクティビティを起動させる
         startActivityForResult(intent, requestCode);
+    }
+    public void replace_end()
+    {
+        WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
+        manager.startScan();
+        for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
+            manager.enableNetwork(c0.networkId, false);
+        }
+    }
+
+    public void setssid_click(View v)
+    {
+        set_ssid_open();
     }
 
     public void replace_click(View v)
@@ -95,22 +121,7 @@ public class Main_WiFiTools extends AppCompatActivity {
                 }
             }
         }
-        if(replaceflag){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try{
-                        Thread.sleep(50000); //50000ミリ秒Sleepする
-                    }catch(InterruptedException e){}
-                    WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
-                    for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
-                        //if (!config.SSID.equals(c0.SSID)) {
-                            manager.enableNetwork(c0.networkId, false);
-                        //}
-                    }
-                }
-            }).start();
-        }
+        
     }
 
 }
