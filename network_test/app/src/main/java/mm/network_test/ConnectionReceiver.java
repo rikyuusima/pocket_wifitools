@@ -19,10 +19,10 @@ public class ConnectionReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
-        if(info == null){
-            mObserver.onDisconnect();
+        if(info != null && info.isAvailable()){
+           mObserver.onConnect();
         }else{
-            mObserver.onConnect();
+            mObserver.onDisconnect();
         }
     }
 
