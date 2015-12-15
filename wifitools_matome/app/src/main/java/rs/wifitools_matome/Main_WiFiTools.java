@@ -51,6 +51,7 @@ public class Main_WiFiTools extends AppCompatActivity {
         }
         Toast.makeText(Main_WiFiTools.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
     }
+
     public void set_ssid_open()
     {
         // 遷移先のActivityを指定して、Intentを作成する
@@ -91,18 +92,14 @@ public class Main_WiFiTools extends AppCompatActivity {
 
         for(ScanResult result : manager.getScanResults()) {
             if(configlistvar!=-1){
-                if(!info.getSSID().replace("\"","").equals(result.SSID)) {
+                //Wifi_strtypeのインスタンス作成
+                Wifi_strtype wstr = new Wifi_strtype(result.SSID);
+                if(!wstr.wifimatch()) {
                     if (result.SSID.equals(config.SSID.replace("\"", ""))) {
                         String oldSSID = info.getSSID().replace("\"", "");
-
-                        //現在の接続の強制的な切断
-                        manager.disableNetwork(info.getNetworkId());
-                        //強制的な切断をして無効化したWiFiを有効化させる(OSのWiFi自動接続を阻害させない為)
-                        //manager.enableNetwork(info.getNetworkId(), false);
-                        manager.enableNetwork(config.networkId, true);
-                        manager.saveConfiguration();
-                        manager.updateNetwork(config);
-
+                        //Wifi_wcontypeのインスタンス作成
+                        Wifi_wcontype wtools = new Wifi_wcontype(config);
+                        wtools.wifichange();
                         /*for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
                             if (!config.SSID.equals(c0.SSID)) {
                                 manager.enableNetwork(c0.networkId, false);
