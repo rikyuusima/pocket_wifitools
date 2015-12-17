@@ -8,8 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class WebActivity extends AppCompatActivity {
-    String fURL ="http://rsserver.web.fc2.com/";
-    //static String n = null;
+    //final String fURL ="http://rsserver.web.fc2.com/";
+    final String fURL = "http://www.google.co.jp/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,32 +27,32 @@ public class WebActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public boolean doNet() {
-        final TextView tv =(TextView)findViewById(R.id.textView);
-        String a;
+        final String title = "Google";
+        final TextView dv = (TextView)findViewById(R.id.debugView);
+        String scan_title;
         WebView webView01 = new WebView(this);
         webView01.getSettings().setJavaScriptEnabled(false);
         webView01.loadUrl(fURL);
         long start = System.currentTimeMillis();
         long end;
         do {
-            a = webView01.getTitle();
+            scan_title = webView01.getTitle();
             end = System.currentTimeMillis();
             if(5000<=(end-start)) {
-                a = "hoge";
+                scan_title = "Can not connect";
                 break;
             }
-        }while (a == null);
-        //n =a;
+        }while (scan_title == null);
 
-        //tv.setText("hoge"+a+"hoge");
+        dv.setText("<title>"+scan_title+"</title>");
 
-        if(a.equals("rsserver")){
+        if(scan_title.equals(title)){
             return true;
-        }else{
+        }
+        else{
             return false;
         }
     }
