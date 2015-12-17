@@ -61,14 +61,7 @@ public class Main_WiFiTools extends AppCompatActivity {
         // 遷移先のアクティビティを起動させる
         startActivityForResult(intent, requestCode);
     }
-    public void replace_end()
-    {
-        WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
-        manager.startScan();
-        for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
-            manager.enableNetwork(c0.networkId, false);
-        }
-    }
+
 
     public void setssid_click(View v)
     {
