@@ -3,13 +3,13 @@ package mm.web_test;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class WebActivity extends AppCompatActivity {
-    //final String fURL ="http://rsserver.web.fc2.com/";
-    final String fURL = "http://www.google.co.jp/";
+    final String fURL ="http://rsserver.web.fc2.com/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +30,12 @@ public class WebActivity extends AppCompatActivity {
     }
 
     public boolean doNet() {
-        final String title = "Google";
+        final String title = "rsserver";
         final TextView dv = (TextView)findViewById(R.id.debugView);
         String scan_title;
         WebView webView01 = new WebView(this);
         webView01.getSettings().setJavaScriptEnabled(false);
+        webView01.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView01.loadUrl(fURL);
         long start = System.currentTimeMillis();
         long end;
