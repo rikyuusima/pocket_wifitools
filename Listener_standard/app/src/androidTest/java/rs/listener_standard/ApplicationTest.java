@@ -1,4 +1,4 @@
-package rs.toggle_button;
+package rs.listener_standard;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -13,8 +13,7 @@
         android:id="@+id/priority_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="192dp"
-        android:onClick="replace_click" />
+        android:layout_marginBottom="192dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -23,8 +22,7 @@
         android:id="@+id/setssid"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:onClick="setssid_click" />
+        android:layout_marginTop="100dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,7 +46,6 @@
         android:text="Replace Mode"
         android:id="@+id/replaceswitch"
         android:checked="false"
-        android:onClick="onCheckedChanged"
         android:nestedScrollingEnabled="false"
         android:layout_below="@+id/setssid"
         android:layout_alignLeft="@+id/setssid"

@@ -1,4 +1,4 @@
-package rs.toggle_button;
+package rs.listener_standard;
 
 import org.junit.Test;
 
