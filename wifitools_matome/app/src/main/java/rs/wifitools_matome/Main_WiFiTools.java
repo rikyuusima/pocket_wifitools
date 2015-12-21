@@ -1,6 +1,7 @@
 package rs.wifitools_matome;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
@@ -19,12 +20,69 @@ import java.util.List;
 
 public class Main_WiFiTools extends AppCompatActivity {
 
-    private int configlistvar;
+    private int configlistvar=-1;
     private boolean replaceswbool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__wi_fi_tools);
+
+        /*Buttonリスナ群*/
+        View.OnClickListener bt1Lis = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                set_ssid_open();
+            }
+        };
+        View.OnClickListener bt2Lis = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView debv = (TextView) findViewById(R.id.debugview);
+                TextView chav = (TextView) findViewById(R.id.changedview);
+                WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
+                WifiInfo info = manager.getConnectionInfo();
+                List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
+                WifiConfiguration config = config_list.get(configlistvar);
+                manager.startScan();
+
+                boolean replaceflag = false;
+                boolean matchflag = false;
+
+                debv.setText("");
+                Wifi_strtype wstr;//Wifi_strtypeのインスタンス作成
+                Wifi_wcontype wtools;//Wifi_wcontypeのインスタンス作成
+                for(ScanResult result : manager.getScanResults()) {
+                    if(configlistvar!=-1){
+                        wstr = new Wifi_strtype(result.SSID);
+                        if(!wstr.wifimatch()) {
+                            if (result.SSID.equals(config.SSID.replace("\"", ""))) {
+                                String oldSSID = info.getSSID().replace("\"", "");
+                                wtools = new Wifi_wcontype(config);
+                                wtools.wifichange();
+                                /*for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
+                                    if (!config.SSID.equals(c0.SSID)) {
+                                    manager.enableNetwork(c0.networkId, false);
+                                    }
+                                }*/
+                                chav.setText(oldSSID + " → " + config.SSID.replace("\"", ""));
+                                replaceflag=true;
+                            }
+                            else if(!replaceflag){
+                                chav.setText("Can not Resolve Setting SSID from Connectable WiFi.");
+                            }
+                            matchflag=true;
+                        }
+                        else if(!matchflag){
+                            chav.setText("Setting SSID and Connecting SSID is Matched.");
+                        }
+                    }
+                }
+
+            }
+        };
+        /*Buttonリスナのインスタンス渡し*/
+        findViewById(R.id.setssid).setOnClickListener(bt1Lis);
+        findViewById(R.id.priority_button).setOnClickListener(bt2Lis);
 
         /*Switchリスナ群*/
         CompoundButton.OnCheckedChangeListener sw1Lis = new CompoundButton.OnCheckedChangeListener() {
@@ -43,6 +101,7 @@ public class Main_WiFiTools extends AppCompatActivity {
         Switch sw1=(Switch)findViewById(R.id.replaceswitch);
         sw1.setOnCheckedChangeListener(sw1Lis);
     }
+
     public void onActivityResult( int requestCode, int resultCode, Intent intent )
     {
         // startActivityForResult()の際に指定した識別コードとの比較
@@ -67,58 +126,6 @@ public class Main_WiFiTools extends AppCompatActivity {
 
         // 遷移先のアクティビティを起動させる
         startActivityForResult(intent, requestCode);
-    }
-
-
-    public void setssid_click(View v)
-    {
-        set_ssid_open();
-    }
-
-    public void replace_click(View v)
-    {
-            TextView debv = (TextView) findViewById(R.id.debugview);
-            TextView chav = (TextView) findViewById(R.id.changedview);
-            WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
-            WifiInfo info = manager.getConnectionInfo();
-            List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
-            WifiConfiguration config = config_list.get(configlistvar);
-            manager.startScan();
-
-            boolean replaceflag = false;
-            boolean matchflag = false;
-
-        debv.setText("");
-
-        for(ScanResult result : manager.getScanResults()) {
-            if(configlistvar!=-1){
-                //Wifi_strtypeのインスタンス作成
-                Wifi_strtype wstr = new Wifi_strtype(result.SSID);
-                if(!wstr.wifimatch()) {
-                    if (result.SSID.equals(config.SSID.replace("\"", ""))) {
-                        String oldSSID = info.getSSID().replace("\"", "");
-                        //Wifi_wcontypeのインスタンス作成
-                        Wifi_wcontype wtools = new Wifi_wcontype(config);
-                        wtools.wifichange();
-                        /*for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
-                            if (!config.SSID.equals(c0.SSID)) {
-                                manager.enableNetwork(c0.networkId, false);
-                            }
-                        }*/
-                        chav.setText(oldSSID + " → " + config.SSID.replace("\"", ""));
-                        replaceflag=true;
-                    }
-                    else if(!replaceflag){
-                        chav.setText("Can not Resolve Setting SSID from Connectable WiFi.");
-                    }
-                    matchflag=true;
-                }
-                else if(!matchflag){
-                    chav.setText("Setting SSID and Connecting SSID is Matched.");
-                }
-            }
-        }
-        
     }
 
 }

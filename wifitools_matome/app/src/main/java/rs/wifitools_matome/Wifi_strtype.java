@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
  */
 public class Wifi_strtype extends AppCompatActivity{
     WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
-    WifiInfo info = manager.getConnectionInfo();
+    WifiInfo info;
     /*Property*/
     String ssid_in;
     /*Constractor*/
@@ -19,8 +19,9 @@ public class Wifi_strtype extends AppCompatActivity{
         this.ssid_in = ssid_in;
     }
 
-    public boolean wifimatch()//WifiConfiguration型で与えられたWiFiと現在接続しているWiFiを比較する
+    public boolean wifimatch()//与えられたWiFiのSSIDと現在接続しているWiFiのSSIDを比較する
     {
+        info = manager.getConnectionInfo();
         if (info.getSSID().replace("\"","").equals(ssid_in.replace("\"","")))
             return true;
         else

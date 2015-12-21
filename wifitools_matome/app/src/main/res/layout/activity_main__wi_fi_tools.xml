@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SET SSID"
-        android:id="@+id/button"
+        android:id="@+id/setssid"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
@@ -47,12 +47,12 @@
         android:layout_height="wrap_content"
         android:text="Replace Mode"
         android:id="@+id/replaceswitch"
-        android:layout_above="@+id/priority_button"
-        android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button"
-        android:layout_marginBottom="23dp"
         android:checked="false"
         android:onClick="onCheckedChanged"
-        android:nestedScrollingEnabled="false" />
+        android:nestedScrollingEnabled="false"
+        android:layout_below="@+id/setssid"
+        android:layout_alignLeft="@+id/setssid"
+        android:layout_alignStart="@+id/setssid"
+        android:layout_marginTop="32dp" />
 
 </RelativeLayout>

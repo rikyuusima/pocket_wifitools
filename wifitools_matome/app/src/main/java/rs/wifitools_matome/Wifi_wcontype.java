@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
  */
 public class Wifi_wcontype extends AppCompatActivity{
     WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
-    WifiInfo info = manager.getConnectionInfo();
+    WifiInfo info;
 
     /*Property*/
     WifiConfiguration config;
@@ -23,6 +23,7 @@ public class Wifi_wcontype extends AppCompatActivity{
 
     public void wifichange()//WifiConfiguration型で与えられたWiFiに切り替える
     {
+        info = manager.getConnectionInfo();
         //現在の接続の強制的な切断
         manager.disableNetwork(info.getNetworkId());
         //強制的な切断をして無効化したWiFiを有効化させる(OSのWiFi自動接続を阻害させない為)
@@ -30,6 +31,5 @@ public class Wifi_wcontype extends AppCompatActivity{
         manager.enableNetwork(config.networkId, true);
         manager.saveConfiguration();
         manager.updateNetwork(config);
-        return ;
     }
 }
