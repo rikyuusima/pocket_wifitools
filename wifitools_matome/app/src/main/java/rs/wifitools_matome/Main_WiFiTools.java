@@ -25,6 +25,23 @@ public class Main_WiFiTools extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__wi_fi_tools);
+
+        /*Switchリスナ群*/
+        CompoundButton.OnCheckedChangeListener sw1Lis = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked == true) {
+                    replaceswbool=true;
+
+                } else {
+                    replaceswbool=true;
+                }
+                Toast.makeText(Main_WiFiTools.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
+            }
+        };
+        /*Switchリスナのインスタンス渡し*/
+        Switch sw1=(Switch)findViewById(R.id.replaceswitch);
+        sw1.setOnCheckedChangeListener(sw1Lis);
     }
     public void onActivityResult( int requestCode, int resultCode, Intent intent )
     {
@@ -40,16 +57,6 @@ public class Main_WiFiTools extends AppCompatActivity {
                 chav.setText("");
             }
         }
-    }
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-        if (isChecked == true) {
-            replaceswbool=true;
-
-        } else {
-            replaceswbool=true;
-        }
-        Toast.makeText(Main_WiFiTools.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
     }
 
     public void set_ssid_open()
