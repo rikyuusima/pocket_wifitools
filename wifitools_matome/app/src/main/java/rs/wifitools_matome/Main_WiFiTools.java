@@ -1,6 +1,7 @@
 package rs.wifitools_matome;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
@@ -27,6 +28,8 @@ public class Main_WiFiTools extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__wi_fi_tools);
 
+        final Context context = this;
+
         /*Buttonリスナ群*/
         View.OnClickListener bt1Lis = new View.OnClickListener() {
             @Override
@@ -49,16 +52,16 @@ public class Main_WiFiTools extends AppCompatActivity {
                 boolean matchflag = false;
 
                 debv.setText("");
-                Wifi_strtype wstr;//Wifi_strtypeのインスタンス作成
-                Wifi_wcontype wtools;//Wifi_wcontypeのインスタンス作成
                 for(ScanResult result : manager.getScanResults()) {
                     if(configlistvar!=-1){
-                        wstr = new Wifi_strtype(result.SSID);
+                        //Wifi_strtypeのインスタンス作成
+                        Wifi_strtype wstr = new Wifi_strtype(context,result.SSID);
                         if(!wstr.wifimatch()) {
                             if (result.SSID.equals(config.SSID.replace("\"", ""))) {
                                 String oldSSID = info.getSSID().replace("\"", "");
-                                wtools = new Wifi_wcontype(config);
-                                wtools.wifichange();
+                                //Wifi_wcontypeのインスタンス作成
+                                Wifi_wcontype wcon = new Wifi_wcontype(context,config);
+                                wcon.wifichange();
                                 /*for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
                                     if (!config.SSID.equals(c0.SSID)) {
                                     manager.enableNetwork(c0.networkId, false);
