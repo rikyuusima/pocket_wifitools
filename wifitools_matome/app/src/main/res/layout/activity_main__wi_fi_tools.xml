@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Replace  Priority SSID"
-        android:id="@+id/priority_button"
+        android:id="@+id/replacebt"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="192dp" />
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SET SSID"
-        android:id="@+id/setssid"
+        android:id="@+id/setssidbt"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp" />
@@ -44,12 +44,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Replace Mode"
-        android:id="@+id/replaceswitch"
+        android:id="@+id/replacesw"
         android:checked="false"
         android:nestedScrollingEnabled="false"
-        android:layout_below="@+id/setssid"
-        android:layout_alignLeft="@+id/setssid"
-        android:layout_alignStart="@+id/setssid"
+        android:layout_below="@+id/setssidbt"
+        android:layout_alignLeft="@+id/setssidbt"
+        android:layout_alignStart="@+id/setssidbt"
         android:layout_marginTop="32dp" />
 
 </RelativeLayout>

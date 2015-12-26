@@ -84,14 +84,14 @@ public class Main_WiFiTools extends AppCompatActivity {
             }
         };
         /*Buttonリスナのインスタンス渡し*/
-        findViewById(R.id.setssid).setOnClickListener(bt1Lis);
-        findViewById(R.id.priority_button).setOnClickListener(bt2Lis);
+        findViewById(R.id.setssidbt).setOnClickListener(bt1Lis);
+        findViewById(R.id.replacebt).setOnClickListener(bt2Lis);
 
         /*Switchリスナ群*/
         CompoundButton.OnCheckedChangeListener sw1Lis = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true) {
+                if (isChecked) {
                     replaceswbool=true;
 
                 } else {
@@ -101,7 +101,7 @@ public class Main_WiFiTools extends AppCompatActivity {
             }
         };
         /*Switchリスナのインスタンス渡し*/
-        Switch sw1=(Switch)findViewById(R.id.replaceswitch);
+        Switch sw1=(Switch)findViewById(R.id.replacesw);
         sw1.setOnCheckedChangeListener(sw1Lis);
     }
 
