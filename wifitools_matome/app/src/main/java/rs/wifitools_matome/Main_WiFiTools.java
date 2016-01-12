@@ -83,9 +83,25 @@ public class Main_WiFiTools extends AppCompatActivity {
 
             }
         };
+        View.OnClickListener bt3Lis = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Webaccess webac = new Webaccess(context);
+                TextView webisv = (TextView)findViewById(R.id.webisenableview);
+                if(webac.IsEnabled())
+                {
+                    webisv.setText("True");
+                }
+                else
+                {
+                    webisv.setText("False");
+                }
+            }
+        };
         /*Buttonリスナのインスタンス渡し*/
         findViewById(R.id.setssidbt).setOnClickListener(bt1Lis);
         findViewById(R.id.replacebt).setOnClickListener(bt2Lis);
+        findViewById(R.id.webisenabledbt).setOnClickListener(bt3Lis);
 
         /*Switchリスナ群*/
         CompoundButton.OnCheckedChangeListener sw1Lis = new CompoundButton.OnCheckedChangeListener() {
@@ -116,7 +132,12 @@ public class Main_WiFiTools extends AppCompatActivity {
                 // 返却されてきたintentから値を取り出す
                 configlistvar=intent.getIntExtra("key",-1);
                 TextView chav = (TextView) findViewById(R.id.changedview);
+                TextView priv = (TextView) findViewById(R.id.priorityview);
                 chav.setText("");
+                WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
+                List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
+                String priority_ssid = config_list.get(configlistvar).SSID.toString();
+                priv.setText("Priority: "+priority_ssid);
             }
         }
     }

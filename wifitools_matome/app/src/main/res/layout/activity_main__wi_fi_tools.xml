@@ -52,4 +52,31 @@
         android:layout_alignStart="@+id/setssidbt"
         android:layout_marginTop="32dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Priority:"
+        android:id="@+id/priorityview"
+        android:layout_alignBottom="@+id/setssidbt"
+        android:layout_toRightOf="@+id/setssidbt"
+        android:layout_toEndOf="@+id/setssidbt" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Web_IsEnabled"
+        android:id="@+id/webisenabledbt"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="true/false"
+        android:id="@+id/webisenableview"
+        android:layout_alignBottom="@+id/webisenabledbt"
+        android:layout_toRightOf="@+id/webisenabledbt"
+        android:layout_toEndOf="@+id/webisenabledbt" />
+
 </RelativeLayout>
