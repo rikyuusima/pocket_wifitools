@@ -31,7 +31,7 @@ public class Wifi_strtype extends AppCompatActivity{
         else
             return false;
     }
-    public void toolsmode_end()
+    public void toolsmode_end()//WiFiの自動接続を無効化したものを元に戻す
     {
         WifiManager manager = (WifiManager)context.getSystemService(WIFI_SERVICE);
         manager.startScan();

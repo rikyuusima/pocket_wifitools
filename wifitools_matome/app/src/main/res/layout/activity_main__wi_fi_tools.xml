@@ -11,18 +11,16 @@
         android:layout_height="wrap_content"
         android:text="Replace  Priority SSID"
         android:id="@+id/replacebt"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="192dp" />
+        android:layout_above="@+id/changedview"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SET SSID"
         android:id="@+id/setssidbt"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp" />
+        android:layout_alignBottom="@+id/priorityview"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,21 +41,20 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Replace Mode"
+        android:text="Auto Replace Mode↓"
         android:id="@+id/replacesw"
         android:checked="false"
         android:nestedScrollingEnabled="false"
-        android:layout_below="@+id/setssidbt"
-        android:layout_alignLeft="@+id/setssidbt"
-        android:layout_alignStart="@+id/setssidbt"
-        android:layout_marginTop="32dp" />
+        android:layout_above="@+id/replacebt"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Priority:"
         android:id="@+id/priorityview"
-        android:layout_alignBottom="@+id/setssidbt"
+        android:layout_marginBottom="35dp"
+        android:layout_above="@+id/replacesw"
         android:layout_toRightOf="@+id/setssidbt"
         android:layout_toEndOf="@+id/setssidbt" />
 
@@ -78,5 +75,23 @@
         android:layout_alignBottom="@+id/webisenabledbt"
         android:layout_toRightOf="@+id/webisenabledbt"
         android:layout_toEndOf="@+id/webisenabledbt" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto Replace Mode↓"
+        android:id="@+id/switch1"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/webisenableview"
+        android:layout_toStartOf="@+id/webisenableview"
+        android:layout_marginTop="23dp"
+        android:checked="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/web_changedview"
+        android:layout_below="@+id/webisenabledbt"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
