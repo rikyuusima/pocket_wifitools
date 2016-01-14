@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,22 +27,22 @@ import java.util.List;
 public class Main_WiFiTools extends AppCompatActivity {
 
     private int configlistvar=-1;
-    private SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
-    private SharedPreferences.Editor editor = data.edit();
+    //private SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
+    //private SharedPreferences.Editor editor = data.edit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__wi_fi_tools);
         Switch sw1s = (Switch)findViewById(R.id.replacesw);
-        sw1s.setChecked(data.getBoolean("sw1isChecked",false));
+        //sw1s.setChecked(data.getBoolean("sw1isChecked",false));
         if(sw1s.isChecked()){
             //動作させる
         }
-        if(data.getString("PrioritySSID",null) != null) {
+        /*if(data.getString("PrioritySSID",null) != null) {
             TextView priv = (TextView) findViewById(R.id.priorityview);
             priv.setText("Priority: " + data.getString("PrioritySSID",null));
-        }
+        }*/
 
         final Context context = this;
 
@@ -63,7 +62,7 @@ public class Main_WiFiTools extends AppCompatActivity {
                 WifiInfo info = manager.getConnectionInfo();
                 List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
                 WifiConfiguration config = config_list.get(configlistvar);
-                String priority_ssid = data.getString("PrioritySSID",null);
+                //String priority_ssid = data.getString("PrioritySSID",null);
                 manager.startScan();
 
                 boolean replaceflag = false;
@@ -76,7 +75,7 @@ public class Main_WiFiTools extends AppCompatActivity {
                         //Wifi_strtypeのインスタンス作成
                         Wifi_strtype wstr = new Wifi_strtype(context,result.SSID);
                         if(!wstr.wifimatch()) {
-                            if (result.SSID.equals(priority_ssid)) {
+                            if (result.SSID.equals(config.SSID.replace("\"",""))) {
                                 String oldSSID = info.getSSID().replace("\"", "");
                                 //Wifi_wcontypeのインスタンス作成
                                 Wifi_wcontype wcon = new Wifi_wcontype(context,config);
@@ -115,8 +114,8 @@ public class Main_WiFiTools extends AppCompatActivity {
                     List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
                     WifiConfiguration config = config_list.get(configlistvar);
                     TextView wchav = (TextView)findViewById(R.id.web_changedview);
-                    String priority_ssid = data.getString("PrioritySSID",null);
-                    manager.startScan();
+                    //String priority_ssid = data.getString("PrioritySSID",null);
+                    //manager.startScan();
 
                     boolean replaceflag = false;
                     boolean matchflag = false;
@@ -127,7 +126,7 @@ public class Main_WiFiTools extends AppCompatActivity {
                             //Wifi_strtypeのインスタンス作成
                             Wifi_strtype wstr = new Wifi_strtype(context,result.SSID);
                             if(!wstr.wifimatch() && !replaceflag) {
-                                if (result.SSID.equals(priority_ssid)) {
+                                if (result.SSID.equals(config.SSID.replace("\"",""))) {
                                     String oldSSID = info.getSSID().replace("\"", "");
                                     //Wifi_wcontypeのインスタンス作成
                                     Wifi_wcontype wcon = new Wifi_wcontype(context,config);
@@ -177,12 +176,12 @@ public class Main_WiFiTools extends AppCompatActivity {
 
                     NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
                     nm.notify(1,builder.build());
-                    editor.putBoolean("sw1isChecked", true);
-                    editor.apply();
+                    //editor.putBoolean("sw1isChecked", true);
+                    //editor.apply();
                 }
                 else {
-                    editor.putBoolean("sw1isChecked",false);
-                    editor.apply();
+                    //editor.putBoolean("sw1isChecked",false);
+                    //editor.apply();
                 }
                 Toast.makeText(Main_WiFiTools.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
             }
@@ -212,13 +211,13 @@ public class Main_WiFiTools extends AppCompatActivity {
                     priv.setText("Priority: " + priority_ssid);
                     this.configlistvar = configlistvar;
                     //優先するWiFiのSSIDをデータ保存
-                    editor.putString("PrioritySSID", priority_ssid);
-                    editor.apply();
+                    //editor.putString("PrioritySSID", priority_ssid);
+                    //editor.apply();
                 }
                 else {
                     this.configlistvar = configlistvar;
-                    editor.putString("PrioritySSID",null);
-                    editor.apply();
+                    //editor.putString("PrioritySSID",null);
+                    //editor.apply();
                 }
             }
         }
