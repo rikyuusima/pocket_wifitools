@@ -2,6 +2,7 @@ package com.example.c_maturu.timer_test;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,10 +33,12 @@ public class TimerActivity extends ActionBarActivity {
         btn2 = (Button)findViewById(R.id.stop_button);
         txt1 = (TextView)findViewById(R.id.txt_counter);
 
+
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast_Start();
                 // 稼働中の場合は止める
                 if(null != timer){
                     timer.cancel();
@@ -55,12 +58,14 @@ public class TimerActivity extends ActionBarActivity {
                 count = 0;
                 txt1.setText(String.valueOf(count));
 
+
             }
         });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast_Stop();
                 if(null != timer){
                     // タイマーをキャンセル
                     timer.cancel();
@@ -68,6 +73,16 @@ public class TimerActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    public void Toast_Start(){
+        Toast toast = Toast.makeText(this, "＜稼働中＞", Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public void Toast_Stop(){
+        Toast toast = Toast.makeText(this, "＜停止しました＞", Toast.LENGTH_LONG);
+        toast.show();
     }
 
     //↓ここは関係なかった。アクションバーの設定部分
