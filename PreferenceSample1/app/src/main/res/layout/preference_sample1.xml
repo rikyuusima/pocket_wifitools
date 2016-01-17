@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="edKey"
+        android:title="設定項目のタイトル"
+        android:summary="設定項目の説明"
+        android:dialogTitle="設定項目のダイアログタイトル"
+        android:dialogMessage="設定項目のダイアログメッセージ"
+        />
+</PreferenceScreen>
