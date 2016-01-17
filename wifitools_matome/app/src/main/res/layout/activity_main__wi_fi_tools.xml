@@ -10,21 +10,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Replace  Priority SSID"
-        android:id="@+id/priority_button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="192dp"
-        android:onClick="replace_click" />
+        android:id="@+id/replacebt"
+        android:layout_above="@+id/changedview"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SET SSID"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:onClick="setssid_click" />
+        android:id="@+id/setssidbt"
+        android:layout_alignBottom="@+id/priorityview"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,6 +36,62 @@
         android:id="@+id/changedview"
         android:layout_marginBottom="38dp"
         android:layout_above="@+id/debugview"
+        android:layout_centerHorizontal="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto Replace Mode↓"
+        android:id="@+id/replacesw"
+        android:checked="false"
+        android:nestedScrollingEnabled="false"
+        android:layout_above="@+id/replacebt"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Priority:"
+        android:id="@+id/priorityview"
+        android:layout_marginBottom="35dp"
+        android:layout_above="@+id/replacesw"
+        android:layout_toRightOf="@+id/setssidbt"
+        android:layout_toEndOf="@+id/setssidbt" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Web_IsEnabled"
+        android:id="@+id/webisenabledbt"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="true/false"
+        android:id="@+id/webisenableview"
+        android:layout_alignBottom="@+id/webisenabledbt"
+        android:layout_toRightOf="@+id/webisenabledbt"
+        android:layout_toEndOf="@+id/webisenabledbt" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto Replace Mode↓"
+        android:id="@+id/switch1"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/webisenableview"
+        android:layout_toStartOf="@+id/webisenableview"
+        android:layout_marginTop="23dp"
+        android:checked="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/web_changedview"
+        android:layout_below="@+id/webisenabledbt"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
