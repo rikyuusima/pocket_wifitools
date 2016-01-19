@@ -58,27 +58,27 @@ public class Main_WiFiTools extends AppCompatActivity {
             public void onClick(View v) {
                 TextView debv = (TextView) findViewById(R.id.debugview);
                 TextView chav = (TextView) findViewById(R.id.changedview);
-                WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
-                WifiInfo info = manager.getConnectionInfo();
-                List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
-                WifiConfiguration config = config_list.get(configlistvar);
-                //String priority_ssid = data.getString("PrioritySSID",null);
-                manager.startScan();
+                if(configlistvar != -1) {
+                    WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
+                    WifiInfo info = manager.getConnectionInfo();
+                    List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
+                    WifiConfiguration config = config_list.get(configlistvar);
+                    //String priority_ssid = data.getString("PrioritySSID",null);
+                    manager.startScan();
 
-                boolean replaceflag = false;
-                boolean matchflag = false;
+                    boolean replaceflag = false;
+                    boolean matchflag = false;
 
-                debv.setText("");
-                /*Scanされた接続可能なWiFiの数ループする*/
-                for(ScanResult result : manager.getScanResults()) {
-                    if(configlistvar != -1){
+                    debv.setText("");
+                    /*Scanされた接続可能なWiFiの数ループする*/
+                    for (ScanResult result : manager.getScanResults()) {
                         //Wifi_strtypeのインスタンス作成
-                        Wifi_strtype wstr = new Wifi_strtype(context,result.SSID);
-                        if(!wstr.wifimatch()) {
-                            if (result.SSID.equals(config.SSID.replace("\"",""))) {
+                        Wifi_strtype wstr = new Wifi_strtype(context, result.SSID);
+                        if (!wstr.wifimatch()) {
+                            if (result.SSID.equals(config.SSID.replace("\"", ""))) {
                                 String oldSSID = info.getSSID().replace("\"", "");
                                 //Wifi_wcontypeのインスタンス作成
-                                Wifi_wcontype wcon = new Wifi_wcontype(context,config);
+                                Wifi_wcontype wcon = new Wifi_wcontype(context, config);
                                 wcon.wifichange();
                                 /*for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
                                     if (!config.SSID.equals(c0.SSID)) {
@@ -86,17 +86,18 @@ public class Main_WiFiTools extends AppCompatActivity {
                                     }
                                 }*/
                                 chav.setText(oldSSID + " → " + config.SSID.replace("\"", ""));
-                                replaceflag=true;
-                            }
-                            else if(!replaceflag){
+                                replaceflag = true;
+                            } else if (!replaceflag) {
                                 chav.setText("Can not Resolve Setting SSID from Connectable WiFi.");
                             }
-                            matchflag=true;
-                        }
-                        else if(!matchflag){
+                            matchflag = true;
+                        } else if (!matchflag) {
                             chav.setText("Setting SSID and Connecting SSID are Matched.");
                         }
                     }
+                }
+                else {
+                    chav.setText("Please set SSID before Replace.");
                 }
 
             }
@@ -106,30 +107,28 @@ public class Main_WiFiTools extends AppCompatActivity {
             public void onClick(View v) {
                 Webaccess webac = new Webaccess(context);
                 TextView webisv = (TextView)findViewById(R.id.webisenableview);
-                if(!webac.IsEnabled())
-                {
+                TextView wchav = (TextView)findViewById(R.id.web_changedview);
+
+                if(!webac.IsEnabled()) {
                     webisv.setText("False");
                     WifiManager manager = (WifiManager)getSystemService(WIFI_SERVICE);
                     WifiInfo info = manager.getConnectionInfo();
                     List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
-                    WifiConfiguration config = config_list.get(configlistvar);
-                    TextView wchav = (TextView)findViewById(R.id.web_changedview);
-                    //String priority_ssid = data.getString("PrioritySSID",null);
-                    //manager.startScan();
+
+                    manager.startScan();
 
                     boolean replaceflag = false;
-                    boolean matchflag = false;
 
                     /*Scanされた接続可能なWiFiの数ループする*/
                     for(ScanResult result : manager.getScanResults()) {
-                        if(configlistvar != -1){
-                            //Wifi_strtypeのインスタンス作成
-                            Wifi_strtype wstr = new Wifi_strtype(context,result.SSID);
-                            if(!wstr.wifimatch() && !replaceflag) {
-                                if (result.SSID.equals(config.SSID.replace("\"",""))) {
+                        for(WifiConfiguration config : config_list){
+                            if(result.SSID.replace("\"","").equals(config.SSID.replace("\"",""))) {
+                                //Wifi_strtypeのインスタンス作成
+                                Wifi_strtype wstr = new Wifi_strtype(context, result.SSID);
+                                if (!wstr.wifimatch() && !replaceflag) {
                                     String oldSSID = info.getSSID().replace("\"", "");
                                     //Wifi_wcontypeのインスタンス作成
-                                    Wifi_wcontype wcon = new Wifi_wcontype(context,config);
+                                    Wifi_wcontype wcon = new Wifi_wcontype(context, config);
                                     wcon.wifichange();
                                 /*for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
                                     if (!config.SSID.equals(c0.SSID)) {
@@ -138,18 +137,20 @@ public class Main_WiFiTools extends AppCompatActivity {
                                 }*/
                                     wchav.setText(oldSSID + " → " + config.SSID.replace("\"", ""));
                                     webisv.setText("True");
-                                    replaceflag=true;
+                                    replaceflag = true;
+                                    break;
                                 }
-                                else if(!replaceflag){
-                                    wchav.setText("Can not Resolve Setting SSID from Connectable WiFi.");
-                                }
-                                matchflag=true;
-                            }
-                            else if(!matchflag){
-                                wchav.setText("Setting SSID and Connecting SSID are Matched.");
                             }
                         }
+
                     }
+                    if(!replaceflag) {
+                        wchav.setText("Can not Resolve Connectable WiFi.");
+                    }
+                }
+                else {
+                    webisv.setText("True");
+                    wchav.setText("");
                 }
             }
         };
@@ -173,6 +174,7 @@ public class Main_WiFiTools extends AppCompatActivity {
                     builder.setNumber(1);
                     builder.setContentIntent(contentIntent);
                     builder.setAutoCancel(true);
+                    builder.setOngoing(true);
 
                     NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
                     nm.notify(1,builder.build());
@@ -180,10 +182,11 @@ public class Main_WiFiTools extends AppCompatActivity {
                     //editor.apply();
                 }
                 else {
+                    NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
+                    nm.cancel(1);
                     //editor.putBoolean("sw1isChecked",false);
                     //editor.apply();
                 }
-                Toast.makeText(Main_WiFiTools.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
             }
         };
         /*Switchリスナのインスタンス渡し*/
