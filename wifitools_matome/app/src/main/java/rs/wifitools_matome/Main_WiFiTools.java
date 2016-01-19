@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Main_WiFiTools extends AppCompatActivity {
@@ -66,14 +68,11 @@ public class Main_WiFiTools extends AppCompatActivity {
                     //String priority_ssid = data.getString("PrioritySSID",null);
                     manager.startScan();
 
-                    boolean replaceflag = false;
-                    boolean matchflag = false;
-
                     debv.setText("");
                     /*Scanされた接続可能なWiFiの数ループする*/
                     for (ScanResult result : manager.getScanResults()) {
                         //Wifi_strtypeのインスタンス作成
-                        Wifi_strtype wstr = new Wifi_strtype(context, result.SSID);
+                        Wifi_strtype wstr = new Wifi_strtype(context, config.SSID);
                         if (!wstr.wifimatch()) {
                             if (result.SSID.equals(config.SSID.replace("\"", ""))) {
                                 String oldSSID = info.getSSID().replace("\"", "");
@@ -86,18 +85,20 @@ public class Main_WiFiTools extends AppCompatActivity {
                                     }
                                 }*/
                                 chav.setText(oldSSID + " → " + config.SSID.replace("\"", ""));
-                                replaceflag = true;
-                            } else if (!replaceflag) {
-                                chav.setText("Can not Resolve Setting SSID from Connectable WiFi.");
+                                break;
                             }
-                            matchflag = true;
-                        } else if (!matchflag) {
-                            chav.setText("Setting SSID and Connecting SSID are Matched.");
+                            else {
+                                chav.setText("設定したSSIDは現在接続できません.");
+                            }
+
+                        }
+                        else {
+                            chav.setText("設定したSSIDに既に接続しています.");
                         }
                     }
                 }
                 else {
-                    chav.setText("Please set SSID before Replace.");
+                    chav.setText("切り替える前にSSIDを設定して下さい.");
                 }
 
             }
@@ -145,43 +146,104 @@ public class Main_WiFiTools extends AppCompatActivity {
 
                     }
                     if(!replaceflag) {
-                        wchav.setText("Can not Resolve Connectable WiFi.");
+                        wchav.setText("インターネットに接続可能なWiFiが存在しません.");
                     }
                 }
                 else {
                     webisv.setText("True");
-                    wchav.setText("");
+                    wchav.setText("接続中のWiFiはインターネットに接続可能です.");
                 }
+            }
+        };
+        View.OnClickListener bt4Lis = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Wifi_basic wbas = new Wifi_basic(context);
+                wbas.toolsmode_end();
             }
         };
         /*Buttonリスナのインスタンス渡し*/
         findViewById(R.id.setssidbt).setOnClickListener(bt1Lis);
         findViewById(R.id.replacebt).setOnClickListener(bt2Lis);
         findViewById(R.id.webisenabledbt).setOnClickListener(bt3Lis);
+        findViewById(R.id.endbt).setOnClickListener(bt4Lis);
 
         /*Switchリスナ群*/
         CompoundButton.OnCheckedChangeListener sw1Lis = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //Timer timer = new Timer();
                 if (isChecked) {
-                    Intent notificationIntent = new Intent(context,Main_WiFiTools.class);
-                    PendingIntent contentIntent = PendingIntent.getActivity(context,0,notificationIntent,0);
+                    /*timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            TextView debv = (TextView) findViewById(R.id.debugview);
+                            TextView chav = (TextView) findViewById(R.id.changedview);
+                            if (configlistvar != -1) {
+                                WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
+                                WifiInfo info = manager.getConnectionInfo();
+                                List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
+                                WifiConfiguration config = config_list.get(configlistvar);
+                                //String priority_ssid = data.getString("PrioritySSID",null);
+                                manager.startScan();
+
+                                boolean replaceflag = false;
+                                boolean matchflag = false;
+
+                                debv.setText("");
+                                /*Scanされた接続可能なWiFiの数ループする*/
+                                /*for (ScanResult result : manager.getScanResults()) {
+                                    //Wifi_strtypeのインスタンス作成
+                                    Wifi_strtype wstr = new Wifi_strtype(context, result.SSID);
+                                    if (!wstr.wifimatch()) {
+                                        if (result.SSID.equals(config.SSID.replace("\"", ""))) {
+                                            String oldSSID = info.getSSID().replace("\"", "");
+                                            //Wifi_wcontypeのインスタンス作成
+                                            Wifi_wcontype wcon = new Wifi_wcontype(context, config);
+                                            wcon.wifichange();
+                                /*for (WifiConfiguration c0 : manager.getConfiguredNetworks()) {
+                                    if (!config.SSID.equals(c0.SSID)) {
+                                    manager.enableNetwork(c0.networkId, false);
+                                    }
+                                }*/
+                                            /*chav.setText(oldSSID + " → " + config.SSID.replace("\"", ""));
+                                            replaceflag = true;
+                                        } else if (!replaceflag) {
+                                            chav.setText("Can not Resolve Setting SSID from Connectable WiFi.");
+                                        }
+                                        matchflag = true;
+                                    } else if (!matchflag) {
+                                        chav.setText("Setting SSID and Connecting SSID are Matched.");
+                                    }
+                                }
+
+
+                            } else {
+                                chav.setText("Please set SSID before Replace.");
+                            }
+                        }
+                    }, 0, 60000);//指定したタスクを60秒で実行*/
+                    Intent notificationIntent = new Intent(context, Main_WiFiTools.class);
+                    PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
                     builder.setSmallIcon(R.mipmap.ic_launcher);
                     builder.setContentTitle("WiFi 優先切替モード");
                     builder.setContentText("タップしてアプリを開く");
-                    builder.setNumber(1);
                     builder.setContentIntent(contentIntent);
                     builder.setAutoCancel(true);
                     builder.setOngoing(true);
 
                     NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
-                    nm.notify(1,builder.build());
+                    nm.notify(1, builder.build());
                     //editor.putBoolean("sw1isChecked", true);
                     //editor.apply();
                 }
                 else {
+                    /*timer.cancel();
+                    timer = null;*/
+                    Wifi_basic wbas = new Wifi_basic(context);
+                    wbas.toolsmode_end();
                     NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
                     nm.cancel(1);
                     //editor.putBoolean("sw1isChecked",false);
@@ -189,9 +251,37 @@ public class Main_WiFiTools extends AppCompatActivity {
                 }
             }
         };
+        CompoundButton.OnCheckedChangeListener sw2Lis = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    Intent notificationIntent = new Intent(context, Main_WiFiTools.class);
+                    PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                    builder.setSmallIcon(R.mipmap.ic_launcher);
+                    builder.setContentTitle("WiFi インターネット接続モード");
+                    builder.setContentText("タップしてアプリを開く");
+                    builder.setContentIntent(contentIntent);
+                    builder.setAutoCancel(true);
+                    builder.setOngoing(true);
+
+                    NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
+                    nm.notify(2, builder.build());
+                }
+                else {
+                    Wifi_basic wbas = new Wifi_basic(context);
+                    wbas.toolsmode_end();
+                    NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
+                    nm.cancel(2);
+                }
+            }
+        };
         /*Switchリスナのインスタンス渡し*/
         Switch sw1=(Switch)findViewById(R.id.replacesw);
         sw1.setOnCheckedChangeListener(sw1Lis);
+        Switch sw2 = (Switch)findViewById(R.id.internetsw);
+        sw2.setOnCheckedChangeListener(sw2Lis);
     }
 
     public void onActivityResult( int requestCode, int resultCode, Intent intent )
@@ -211,7 +301,7 @@ public class Main_WiFiTools extends AppCompatActivity {
                     WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
                     List<WifiConfiguration> config_list = manager.getConfiguredNetworks();
                     String priority_ssid = config_list.get(configlistvar).SSID.replace("\"", "");
-                    priv.setText("Priority: " + priority_ssid);
+                    priv.setText("設定したSSID: " + priority_ssid);
                     this.configlistvar = configlistvar;
                     //優先するWiFiのSSIDをデータ保存
                     //editor.putString("PrioritySSID", priority_ssid);

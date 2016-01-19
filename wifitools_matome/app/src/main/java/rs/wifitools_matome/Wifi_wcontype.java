@@ -7,7 +7,7 @@ import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Wifi_wcontypeメソッド.WiFiConfiguration型を利用するメソッド群を記述.
+ * Wifi_wcontypeクラス.WiFiConfiguration型を利用するメソッド群を記述.
  */
 public class Wifi_wcontype extends AppCompatActivity{
     /*Property*/

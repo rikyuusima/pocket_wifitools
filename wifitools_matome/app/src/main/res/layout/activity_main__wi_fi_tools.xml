@@ -41,7 +41,7 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Auto Replace Mode↓"
+        android:text="Auto Replace Mode→"
         android:id="@+id/replacesw"
         android:checked="false"
         android:nestedScrollingEnabled="false"
@@ -79,8 +79,8 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Auto Replace Mode↓"
-        android:id="@+id/switch1"
+        android:text="Auto Replace Mode→"
+        android:id="@+id/internetsw"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/webisenableview"
         android:layout_toStartOf="@+id/webisenableview"
@@ -92,6 +92,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/web_changedview"
         android:layout_below="@+id/webisenabledbt"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="END"
+        android:id="@+id/endbt"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
