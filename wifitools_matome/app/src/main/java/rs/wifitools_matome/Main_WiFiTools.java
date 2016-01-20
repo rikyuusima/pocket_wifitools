@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.Timer;
@@ -227,7 +226,7 @@ public class Main_WiFiTools extends AppCompatActivity {
                     PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-                    builder.setSmallIcon(R.mipmap.ic_launcher);
+                    builder.setSmallIcon(R.drawable.ic_stat_name);
                     builder.setContentTitle("WiFi 優先切替モード");
                     builder.setContentText("タップしてアプリを開く");
                     builder.setContentIntent(contentIntent);
@@ -259,7 +258,7 @@ public class Main_WiFiTools extends AppCompatActivity {
                     PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-                    builder.setSmallIcon(R.mipmap.ic_launcher);
+                    builder.setSmallIcon(R.drawable.ic_stat_name);
                     builder.setContentTitle("WiFi インターネット接続モード");
                     builder.setContentText("タップしてアプリを開く");
                     builder.setContentIntent(contentIntent);

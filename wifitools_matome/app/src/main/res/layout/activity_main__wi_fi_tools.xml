@@ -63,9 +63,8 @@
         android:layout_height="wrap_content"
         android:text="Web_IsEnabled"
         android:id="@+id/webisenabledbt"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp" />
+        android:layout_below="@+id/internetsw"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -81,11 +80,10 @@
         android:layout_height="wrap_content"
         android:text="Auto Replace Mode→"
         android:id="@+id/internetsw"
+        android:checked="false"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/webisenableview"
-        android:layout_toStartOf="@+id/webisenableview"
-        android:layout_marginTop="23dp"
-        android:checked="false" />
+        android:layout_alignRight="@+id/priorityview"
+        android:layout_alignEnd="@+id/priorityview" />
 
     <TextView
         android:layout_width="wrap_content"
