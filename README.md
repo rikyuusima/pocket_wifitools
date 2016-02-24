@@ -16,4 +16,4 @@ H27年度 情報課題研究II 提出作品
   - WiFi切り替え処理, 本アプリへの実装
 
 ## ライセンス
-[MIT License](LICENSE)に準拠しております。
+[MIT License](https://github.com/rikyuusima/pocket_wifitools/blob/master/LICENSE.txt)に準拠しております。
