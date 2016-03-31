@@ -1,7 +1,7 @@
 # Smart WiFi Config
 
 ## 概要
-H27年度 情報課題研究II 提出作品  
+H27年度 情報課題研究II 提出作品の  
 ソースコードになります。  
 
 * wifitools_matome/
